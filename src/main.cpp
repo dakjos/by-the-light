@@ -3,7 +3,7 @@
 int main()
 {
 	Window main;
-  Stan s(main, "img/stan.png");
+  Stan s(main, "img/stan-forward.png");
 	Event e;
 
 	while(e.gRun())

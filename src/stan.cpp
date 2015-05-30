@@ -29,9 +29,9 @@ void Stan::movement(SDL_Event& e)
 {
 	switch(e.key.keysym.sym)
     {
-    	  case SDLK_UP: yPosition-=speed; break;
-        case SDLK_DOWN: yPosition+=speed; break;
-        case SDLK_LEFT: xPosition-=speed; break;
-        case SDLK_RIGHT: xPosition+=speed; break;
+    	  case SDLK_w: yPosition-=speed; break;
+        case SDLK_s: yPosition+=speed; break;
+        case SDLK_a: xPosition-=speed; break;
+        case SDLK_d: xPosition+=speed; break;
     }
 }
