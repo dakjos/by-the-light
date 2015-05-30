@@ -3,7 +3,7 @@
 int main()
 {
 	Window main;
-  Stan s(main, "img/stan-forward.png");
+  Game g(main);
 	Event e;
 
 	while(e.gRun())
@@ -13,12 +13,12 @@ int main()
 			if(e.gEventType() == SDL_QUIT)
 				e.off();
 			else if(e.gEventType() == SDL_KEYDOWN)
-			  s.movement(e.gEvent());
+			  g.movement(main, e.gEvent());
 		}
 
 		main.Clear();
 
-    s.Place();
+    g.Place();
 
 		main.Render();
 	}

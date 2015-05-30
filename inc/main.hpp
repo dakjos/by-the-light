@@ -4,6 +4,7 @@
 #include "window.hpp"
 #include "event.hpp"
 #include "stan.hpp"
+#include "game.hpp"
 
 
 #endif

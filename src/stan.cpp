@@ -1,11 +1,14 @@
 #include "stan.hpp"
 
-Stan::Stan(Window m, std::string s) //Constructor
+Stan::Stan(Window m, std::string s, int health, int light, int x, int y) //Constructor
 {
 	texture = loadTexture(s, m);
 	renderer = m.getRenderer();
-  yPosition=rand()%800;
-  xPosition=rand()%1200;
+	health = health;
+	light = light;
+	xPosition = x;
+	yPosition = y;
+
 }
 
 void Stan::Place()
@@ -34,4 +37,24 @@ void Stan::movement(SDL_Event& e)
         case SDLK_a: xPosition-=speed; break;
         case SDLK_d: xPosition+=speed; break;
     }
+}
+
+int Stan::getHealth(){
+	return health;
+}
+
+int Stan::getLight(){
+	return light;
+}
+
+int Stan::getX(){
+	return xPosition;
+}
+
+int Stan::getY(){
+	return yPosition;
+}
+
+int Stan::getSpeed(){
+	return speed;
 }
