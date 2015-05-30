@@ -3,6 +3,7 @@
 int main()
 {
 	Window main;
+  Davorin d(main, "img/DS.png");
 	Event e;
 
 	while(e.gRun())
@@ -17,7 +18,7 @@ int main()
 
 		main.Clear();
 
-    //stuffm goes here
+    d.Place();
 
 		main.Render();
 	}
