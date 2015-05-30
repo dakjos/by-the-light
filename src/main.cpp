@@ -12,8 +12,8 @@ int main()
 		{
 			if(e.gEventType() == SDL_QUIT)
 				e.off();
-			//else if(e.gEventType() == SDL_KEYDOWN)
-			//	eventHandle(e.gEvent());
+			else if(e.gEventType() == SDL_KEYDOWN)
+			  d.movement(e.gEvent());
 		}
 
 		main.Clear();

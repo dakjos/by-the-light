@@ -24,3 +24,14 @@ SDL_Texture* Davorin::loadTexture(std::string path, Window main)
 	SDL_FreeSurface(surface);
 	return texture;
 }
+
+void Davorin::movement(SDL_Event& e)
+{
+	switch(e.key.keysym.sym)
+    {
+    	  case SDLK_UP: yPosition-=speed; break;
+        case SDLK_DOWN: yPosition+=speed; break;
+        case SDLK_LEFT: xPosition-=speed; break;
+        case SDLK_RIGHT: xPosition+=speed; break;
+    }
+}
