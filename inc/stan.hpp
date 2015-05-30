@@ -1,12 +1,12 @@
-#ifndef davorin_h
-#define davorin_h
+#ifndef stan_h
+#define stan_h
 
 #include "window.hpp"
 
-class Davorin
+class Stan
 {
 	public:
-    Davorin(Window m, std::string s);
+    Stan(Window m, std::string s);
 		SDL_Texture* loadTexture(std::string path, Window main);
     void Place();
 		void movement(SDL_Event& e);

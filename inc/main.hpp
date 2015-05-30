@@ -3,7 +3,7 @@
 
 #include "window.hpp"
 #include "event.hpp"
-#include "davorin.hpp"
+#include "stan.hpp"
 
 
 #endif

@@ -3,7 +3,7 @@
 int main()
 {
 	Window main;
-  Davorin d(main, "img/DS.png");
+  Stan s(main, "img/stan.png");
 	Event e;
 
 	while(e.gRun())
@@ -13,12 +13,12 @@ int main()
 			if(e.gEventType() == SDL_QUIT)
 				e.off();
 			else if(e.gEventType() == SDL_KEYDOWN)
-			  d.movement(e.gEvent());
+			  s.movement(e.gEvent());
 		}
 
 		main.Clear();
 
-    d.Place();
+    s.Place();
 
 		main.Render();
 	}
