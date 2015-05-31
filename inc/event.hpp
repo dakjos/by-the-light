@@ -3,8 +3,7 @@
 
 #include "window.hpp"
 
-class Event
-{
+class Event {
 	public:
 		Event();
 		int Poll();
@@ -12,7 +11,6 @@ class Event
 		bool gRun();
 		SDL_Event& gEvent();
 		int gEventType();
-
 	private:
 		bool run;
 		SDL_Event v;

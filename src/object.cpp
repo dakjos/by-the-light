@@ -1,14 +1,6 @@
-#include "bolt.hpp"
+#include "object.hpp"
 
-Bolt::Bolt(Window m, std::string s, int x, int y){
-	texture = loadTexture(s, m);
-	renderer = m.getRenderer();
-	xPosition = x;
-	yPosition = y;
-}
-
-SDL_Texture* Bolt::loadTexture(std::string path, Window main)
-{
+SDL_Texture* Object::loadTexture(std::string path, Window main){
 	SDL_Surface* surface = IMG_Load(path.c_str());
 	SDL_SetColorKey(surface, SDL_TRUE, SDL_MapRGB(surface->format, 255, 255, 255));
 	height = surface->h;
@@ -18,8 +10,7 @@ SDL_Texture* Bolt::loadTexture(std::string path, Window main)
 	return texture;
 }
 
-void Bolt::Place()
-{
+void Object::Place(){
 	SDL_Rect rect = {xPosition, yPosition, width, height};
 	SDL_RenderCopyEx(renderer,texture,NULL,&rect,degrees,NULL,SDL_FLIP_NONE);
 }

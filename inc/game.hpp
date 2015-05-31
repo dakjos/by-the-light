@@ -5,13 +5,11 @@
 #include "event.hpp"
 #include "stan.hpp"
 
-class Game
-{
+class Game {
 public:
   Game(Window m);
   void Place();
   void action(Window m, SDL_Event& e);
-
 private:
   std::vector<Stan> S;
   bool slashing;

@@ -1,12 +1,10 @@
-#ifndef bolt_h
-#define bolt_h
+#ifndef object_h
+#define object_h
 
 #include "window.hpp"
 
-class Bolt
-{
+class Object {
 public:
-	Bolt(Window m, std::string s, int x, int y);
 	SDL_Texture* loadTexture(std::string path, Window main);
 	void Place();
 protected:

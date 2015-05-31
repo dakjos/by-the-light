@@ -2,14 +2,11 @@
 #define stan_h
 
 #include "window.hpp"
+#include "object.hpp"
 
-class Stan
-{
+class Stan : public Object {
 	public:
-    	Stan(Window m, std::string s, int health, int light, int x, int y);
-		SDL_Texture* loadTexture(std::string path, Window main);
-    	void Place();
-		void movement(SDL_Event& e);
+    Stan(Window m, std::string s, int health, int light, int x, int y);
 		int getHealth();
 		int getLight();
 		int getX();
@@ -17,14 +14,6 @@ class Stan
 		int getSpeed();
 		void setDirection(int x);
 		int getDirection();
-
-	protected:
-    	int xPosition, yPosition; //Coordinates of entity on window
-		int height, width; //Dimensions of image on window
-		int degrees = 0;
-		SDL_Texture* texture;
-		SDL_Renderer* renderer;
-
 	private:
 		int health = 100;
 		int light = 100;

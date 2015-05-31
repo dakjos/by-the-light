@@ -16,17 +16,14 @@
 
 using namespace std;
 
-class Window
-{
+class Window {
 	public:
 		Window();
 		Window(std::string){};
 		void Destroy();
-
 		void Clear();
 		void Render();
 		SDL_Renderer* getRenderer();
-
 	private:
 		SDL_Window* main;
 		SDL_Renderer* renderer;
