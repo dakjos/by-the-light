@@ -18,7 +18,7 @@ int main()
 
 		main.Clear();
 
-        g.Place();
+    g.Place();
 
 		main.Render();
 	}

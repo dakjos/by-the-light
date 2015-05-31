@@ -3,19 +3,12 @@
 Game::Game(Window m)
 {
   Stan s(m, "img/stan-forward.png", 100, 100, 100, 100);
-  Slash a(m, "img/front_slash.png",100,100);
   S.push_back(s);
-  A.push_back(a);
 }
 
 void Game::Place()
 {
   S[0].Place();
-  if(attacking){
-    A[0].Place();
-    sleep(2);
-    attacking = 0;
-  }
 }
 
 void Game::action(Window m, SDL_Event& e)
@@ -57,15 +50,6 @@ void Game::action(Window m, SDL_Event& e)
           S.erase(S.begin());
           Stan s = Stan(m, "img/stan-right.png", health, light, x+speed, y);
           S.push_back(s);
-        }
-          break;
-
-        case SDLK_e:
-        {
-          attacking = 1;
-          A.erase(A.begin());
-          Slash a = Slash(m, "img/front_slash.png", x, y);
-          A.push_back(a);
         }
           break;
     }

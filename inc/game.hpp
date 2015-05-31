@@ -4,7 +4,6 @@
 #include "window.hpp"
 #include "event.hpp"
 #include "stan.hpp"
-#include "slash.hpp"
 
 class Game
 {
@@ -14,9 +13,7 @@ public:
   void action(Window m, SDL_Event& e);
 
 private:
-	bool attacking;	
   std::vector<Stan> S;
-  std::vector<Slash> A;
 };
 
 #endif
