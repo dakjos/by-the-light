@@ -11,7 +11,7 @@ void Game::Place()
   S[0].Place();
 }
 
-void Game::movement(Window m, SDL_Event& e)
+void Game::action(Window m, SDL_Event& e)
 {
   int health = S[0].getHealth();
   int light = S[0].getLight();
@@ -52,5 +52,14 @@ void Game::movement(Window m, SDL_Event& e)
           S.push_back(s);
         }
           break;
+
+        case SDLK_e:
+        {
+          Slash a = Slash(m, "img/front_slash.png", x, y);
+          A.push_back(a);
+          A[0].Place();
+          sleep(1);
+          A.erase(A.begin());
+        }
     }
 }

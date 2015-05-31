@@ -4,16 +4,18 @@
 #include "window.hpp"
 #include "event.hpp"
 #include "stan.hpp"
+#include "slash.hpp"
 
 class Game
 {
 public:
   Game(Window m);
   void Place();
-  void movement(Window m, SDL_Event& e);
+  void action(Window m, SDL_Event& e);
 
 private:
   std::vector<Stan> S;
+  std::vector<Slash> A;
 };
 
 #endif

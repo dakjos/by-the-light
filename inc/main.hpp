@@ -5,6 +5,7 @@
 #include "event.hpp"
 #include "stan.hpp"
 #include "game.hpp"
+#include "slash.hpp"
 
 
 #endif

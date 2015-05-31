@@ -3,7 +3,7 @@
 int main()
 {
 	Window main;
-  Game g(main);
+    Game g(main);
 	Event e;
 
 	while(e.gRun())
@@ -13,12 +13,12 @@ int main()
 			if(e.gEventType() == SDL_QUIT)
 				e.off();
 			else if(e.gEventType() == SDL_KEYDOWN)
-			  g.movement(main, e.gEvent());
+			    g.action(main, e.gEvent());
 		}
 
 		main.Clear();
 
-    g.Place();
+        g.Place();
 
 		main.Render();
 	}

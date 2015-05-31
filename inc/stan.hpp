@@ -6,9 +6,9 @@
 class Stan
 {
 	public:
-    Stan(Window m, std::string s, int health, int light, int x, int y);
+    	Stan(Window m, std::string s, int health, int light, int x, int y);
 		SDL_Texture* loadTexture(std::string path, Window main);
-    void Place();
+    	void Place();
 		void movement(SDL_Event& e);
 		int getHealth();
 		int getLight();
@@ -17,7 +17,7 @@ class Stan
 		int getSpeed();
 
 	protected:
-    int xPosition, yPosition; //Coordinates of entity on window
+    	int xPosition, yPosition; //Coordinates of entity on window
 		int height, width; //Dimensions of image on window
 		int degrees = 0;
 		SDL_Texture* texture;
