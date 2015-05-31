@@ -14,6 +14,7 @@ public:
   void action(Window m, SDL_Event& e);
 
 private:
+	bool attacking;	
   std::vector<Stan> S;
   std::vector<Slash> A;
 };
