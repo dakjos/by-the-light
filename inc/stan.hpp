@@ -15,6 +15,8 @@ class Stan
 		int getX();
 		int getY();
 		int getSpeed();
+		void setDirection(int x);
+		int getDirection();
 
 	protected:
     	int xPosition, yPosition; //Coordinates of entity on window
@@ -27,6 +29,7 @@ class Stan
 		int health = 100;
 		int light = 100;
 		int speed = 20;
+		int direction = 1; //1 - forward; 2 - backward; 3 - left; 4 - right;
 };
 
 #endif

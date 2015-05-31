@@ -58,3 +58,10 @@ int Stan::getY(){
 int Stan::getSpeed(){
 	return speed;
 }
+
+void Stan::setDirection(int x){
+	direction = x;
+}
+int Stan::getDirection(){
+	return direction;
+}
