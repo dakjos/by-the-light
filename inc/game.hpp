@@ -14,6 +14,7 @@ public:
 
 private:
   std::vector<Stan> S;
+  bool slashing;
 };
 
 #endif

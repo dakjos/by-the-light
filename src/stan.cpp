@@ -8,7 +8,6 @@ Stan::Stan(Window m, std::string s, int health, int light, int x, int y) //Const
 	light = light;
 	xPosition = x;
 	yPosition = y;
-
 }
 
 void Stan::Place()
@@ -62,6 +61,7 @@ int Stan::getSpeed(){
 void Stan::setDirection(int x){
 	direction = x;
 }
+
 int Stan::getDirection(){
 	return direction;
 }

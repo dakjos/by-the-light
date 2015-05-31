@@ -18,16 +18,17 @@ void Game::action(Window m, SDL_Event& e)
   int speed = S[0].getSpeed();
   int x = S[0].getX();
   int y = S[0].getY();
+  int direction = S[0].getDirection();
 
 	switch(e.key.keysym.sym)
     {
-    	  case SDLK_w:
+        case SDLK_w:
         {
           S.erase(S.begin());
           Stan s = Stan(m, "img/stan-forward.png", health, light, x, y-speed);
           S.push_back(s);
         }
-          break;
+        break;
 
         case SDLK_s:
         {
@@ -35,7 +36,7 @@ void Game::action(Window m, SDL_Event& e)
           Stan s = Stan(m, "img/stan-backward.png", health, light, x, y+speed);
           S.push_back(s);
         }
-          break;
+        break;
 
         case SDLK_a:
         {
@@ -43,7 +44,7 @@ void Game::action(Window m, SDL_Event& e)
           Stan s = Stan(m, "img/stan-left.png", health, light, x-speed, y);
           S.push_back(s);
         }
-          break;
+        break;
 
         case SDLK_d:
         {
@@ -51,6 +52,12 @@ void Game::action(Window m, SDL_Event& e)
           Stan s = Stan(m, "img/stan-right.png", health, light, x+speed, y);
           S.push_back(s);
         }
-          break;
+        break;
+
+        case SDLK_e:
+        {
+          slashing = 1;
+        }
+        break;
     }
 }
