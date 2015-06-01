@@ -10,7 +10,6 @@ class Bolt : public Object{
     int checkWindow();
     int getXspeed();
     int getYspeed();
-
   private:
     int onscreen = 1;
 };

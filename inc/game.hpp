@@ -18,9 +18,10 @@ private:
   bool unslashing = 0;
   bool boltshot = 0;
   int boltcount = 0;
+  int howManyBolts = 0;
   int initdir = 0;
-  int initx=0;
-  int inity=0;
+  int initx = 0;
+  int inity = 0;
 };
 
 #endif

@@ -16,7 +16,6 @@ int Bolt::checkWindow(){
     return 1;
 }
 
-
 int Bolt::getYspeed(){
 	if(getDirection() == 1)
 		return -getSpeed();

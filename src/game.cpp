@@ -13,17 +13,17 @@ void Game::Place(Window m){
   int x = S[0].getX();
   int y = S[0].getY();
   int direction = S[0].getDirection();
-  //test lol
-
 
   if(boltshot){
-    if(boltcount == 0)
-      {initdir = direction; initx = x; inity = y;}
+    if(boltcount == 0){
+      initdir = direction;
+      initx = x;
+      inity = y;
+    }
     switch(initdir){
       case 1: {
-        //B.erase(B.begin());
         if(boltcount > 0)
-        B.erase(B.begin());
+          B.erase(B.begin());
         Bolt b = Bolt(m, "img/bolt_of_light_up.png", initdir, initx, inity, boltcount);
         B.push_back(b);
         B[0].Place();
@@ -32,9 +32,8 @@ void Game::Place(Window m){
       }
       break;
       case 2: {
-        //B.erase(B.begin());
         if(boltcount > 0)
-        B.erase(B.begin());
+          B.erase(B.begin());
         Bolt b = Bolt(m, "img/bolt_of_light_down.png", initdir, initx, inity, boltcount);
         B.push_back(b);
         B[0].Place();
@@ -43,9 +42,8 @@ void Game::Place(Window m){
       }
       break;
       case 3: {
-      //  B.erase(B.begin());
       if(boltcount > 0)
-        B.erase(B.begin());
+          B.erase(B.begin());
         Bolt b = Bolt(m, "img/bolt_of_light_left.png", initdir, initx, inity,boltcount);
         B.push_back(b);
         B[0].Place();
@@ -55,8 +53,7 @@ void Game::Place(Window m){
       break;
       case 4: {
         if(boltcount > 0)
-        B.erase(B.begin());
-        //B.erase(B.begin());
+          B.erase(B.begin());
         Bolt b = Bolt(m, "img/bolt_of_light_right.png", initdir, initx, inity, boltcount);
         B.push_back(b);
         B[0].Place();
@@ -68,13 +65,12 @@ void Game::Place(Window m){
     boltcount += 1;
   }
   else if(!boltshot){
-    if(boltcount){
+    if(boltcount) {
       boltcount =0;
       initdir = 0;
       B.erase(B.begin());
-      }
+    }
   }
-
 
   if(slashing){
     switch(direction){
@@ -181,7 +177,6 @@ void Game::action(Window m, SDL_Event& e){
           S[0].setDirection(1);
         }
         break;
-
         case SDLK_s:{
           S.erase(S.begin());
           Stan s = Stan(m, "img/stan-backward.png", health, light, x, y+speed);
@@ -189,7 +184,6 @@ void Game::action(Window m, SDL_Event& e){
           S[0].setDirection(2);
         }
         break;
-
         case SDLK_a:{
           S.erase(S.begin());
           Stan s = Stan(m, "img/stan-left.png", health, light, x-speed, y);
@@ -197,7 +191,6 @@ void Game::action(Window m, SDL_Event& e){
           S[0].setDirection(3);
         }
         break;
-
         case SDLK_d:{
           S.erase(S.begin());
           Stan s = Stan(m, "img/stan-right.png", health, light, x+speed, y);
@@ -205,7 +198,6 @@ void Game::action(Window m, SDL_Event& e){
           S[0].setDirection(4);
         }
         break;
-
         case SDLK_e:{
           slashing = 1;
         }
