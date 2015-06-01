@@ -16,23 +16,3 @@ int Stan::getHealth(){
 int Stan::getLight(){
 	return light;
 }
-
-int Stan::getX(){
-	return xPosition;
-}
-
-int Stan::getY(){
-	return yPosition;
-}
-
-int Stan::getSpeed(){
-	return speed;
-}
-
-void Stan::setDirection(int x){
-	direction = x;
-}
-
-int Stan::getDirection(){
-	return direction;
-}

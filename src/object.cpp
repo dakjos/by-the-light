@@ -14,3 +14,23 @@ void Object::Place(){
 	SDL_Rect rect = {xPosition, yPosition, width, height};
 	SDL_RenderCopyEx(renderer,texture,NULL,&rect,degrees,NULL,SDL_FLIP_NONE);
 }
+
+int Object::getX(){
+	return xPosition;
+}
+
+int Object::getY(){
+	return yPosition;
+}
+
+int Object::getSpeed(){
+	return speed;
+}
+
+int Object::getDirection(){
+	return direction;
+}
+
+void Object::setDirection(int x){
+	direction = x;
+}
