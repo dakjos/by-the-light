@@ -13,7 +13,7 @@ void Game::Place(Window m){
   int x = S[0].getX();
   int y = S[0].getY();
   int direction = S[0].getDirection();
-
+  //test lol
   if(slashing){
     switch(direction){
         case 1: {
@@ -146,6 +146,9 @@ void Game::action(Window m, SDL_Event& e){
 
         case SDLK_e:{
           slashing = 1;
+        }
+        case SDLK_1:{
+          boltshot = 1;
         }
         break;
     }
