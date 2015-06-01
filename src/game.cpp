@@ -65,8 +65,14 @@ void Game::Place(Window m){
     }
     boltcount += 1;
   }
-  else
-    boltshot = 0;//boltcount =0;
+  else if(!boltshot){
+    if(boltcount){
+      boltcount =0;
+      B.erase(B.begin());
+      }
+  }
+
+
   if(slashing){
     switch(direction){
         case 1: {
