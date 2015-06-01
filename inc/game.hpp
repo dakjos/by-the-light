@@ -14,6 +14,7 @@ private:
   std::vector<Stan> S;
   bool slashing = 0;
   bool unslashing = 0;
+  bool boltshot = 0;
 };
 
 #endif

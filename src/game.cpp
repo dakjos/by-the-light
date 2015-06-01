@@ -13,7 +13,7 @@ void Game::Place(Window m){
   int x = S[0].getX();
   int y = S[0].getY();
   int direction = S[0].getDirection();
-
+  //test lol
   if(slashing){
     switch(direction){
         case 1: {
@@ -59,6 +59,46 @@ void Game::Place(Window m){
       }
     }
   else if(unslashing){
+    switch(direction){
+      case 1: {
+        S.erase(S.begin());
+        Stan s = Stan(m, "img/stan-forward.png", health, light, x, y);
+        S.push_back(s);
+        S[0].Place();
+        S[0].setDirection(1);
+        unslashing = 0;
+      }
+      break;
+      case 2: {
+        S.erase(S.begin());
+        Stan s = Stan(m, "img/stan-backward.png", health, light, x, y);
+        S.push_back(s);
+        S[0].Place();
+        S[0].setDirection(2);
+        unslashing = 0;
+      }
+      break;
+      case 3: {
+        S.erase(S.begin());
+        Stan s = Stan(m, "img/stan-left.png", health, light, x, y);
+        S.push_back(s);
+        S[0].Place();
+        S[0].setDirection(3);
+        unslashing = 0;
+      }
+      break;
+      case 4: {
+        S.erase(S.begin());
+        Stan s = Stan(m, "img/stan-right.png", health, light, x, y);
+        S.push_back(s);
+        S[0].Place();
+        S[0].setDirection(4);
+        unslashing = 0;
+      }
+      break;
+    }
+  }
+  else if(boltshot){
     switch(direction){
       case 1: {
         S.erase(S.begin());
@@ -146,6 +186,9 @@ void Game::action(Window m, SDL_Event& e){
 
         case SDLK_e:{
           slashing = 1;
+        }
+        case SDLK_1:{
+          boltshot = 1;
         }
         break;
     }
