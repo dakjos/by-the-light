@@ -6,7 +6,13 @@
 
 class Bolt : public Object{
   public:
-    Bolt(Window m, std::string s, int x, int y);
+    Bolt(Window m, std::string s, int sdirection, int x, int y, int boltcount);
+    int checkWindow();
+    int getXspeed();
+    int getYspeed();
+
+  private:
+    int onscreen = 1;
 };
 
 #endif
