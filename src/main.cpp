@@ -15,9 +15,10 @@ int main(){
 
 		main.Clear();
 
-    g.Place();
+    g.Place(main);
 
 		main.Render();
+		SDL_Delay(50);
 	}
 
 	main.Destroy();
