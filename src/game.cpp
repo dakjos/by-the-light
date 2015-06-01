@@ -17,12 +17,14 @@ void Game::Place(Window m){
 
 
   if(boltshot){
-    switch(direction){
+    if(boltcount == 0)
+      {initdir = direction; initx = x; inity = y;}
+    switch(initdir){
       case 1: {
         //B.erase(B.begin());
         if(boltcount > 0)
-          B.erase(B.begin());
-        Bolt b = Bolt(m, "img/bolt_of_light_up.png", direction, x, y, boltcount);
+        B.erase(B.begin());
+        Bolt b = Bolt(m, "img/bolt_of_light_up.png", initdir, initx, inity, boltcount);
         B.push_back(b);
         B[0].Place();
         B[0].setDirection(1);
@@ -32,8 +34,8 @@ void Game::Place(Window m){
       case 2: {
         //B.erase(B.begin());
         if(boltcount > 0)
-          B.erase(B.begin());
-        Bolt b = Bolt(m, "img/bolt_of_light_down.png", direction, x, y, boltcount);
+        B.erase(B.begin());
+        Bolt b = Bolt(m, "img/bolt_of_light_down.png", initdir, initx, inity, boltcount);
         B.push_back(b);
         B[0].Place();
         B[0].setDirection(2);
@@ -44,7 +46,7 @@ void Game::Place(Window m){
       //  B.erase(B.begin());
       if(boltcount > 0)
         B.erase(B.begin());
-        Bolt b = Bolt(m, "img/bolt_of_light_left.png", direction, x, y,boltcount);
+        Bolt b = Bolt(m, "img/bolt_of_light_left.png", initdir, initx, inity,boltcount);
         B.push_back(b);
         B[0].Place();
         B[0].setDirection(3);
@@ -53,9 +55,9 @@ void Game::Place(Window m){
       break;
       case 4: {
         if(boltcount > 0)
-          B.erase(B.begin());
+        B.erase(B.begin());
         //B.erase(B.begin());
-        Bolt b = Bolt(m, "img/bolt_of_light_right.png", direction, x, y, boltcount);
+        Bolt b = Bolt(m, "img/bolt_of_light_right.png", initdir, initx, inity, boltcount);
         B.push_back(b);
         B[0].Place();
         B[0].setDirection(4);
@@ -68,6 +70,7 @@ void Game::Place(Window m){
   else if(!boltshot){
     if(boltcount){
       boltcount =0;
+      initdir = 0;
       B.erase(B.begin());
       }
   }
