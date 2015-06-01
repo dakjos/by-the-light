@@ -14,7 +14,7 @@ int main(){
 		}
 
 		main.Clear();
-
+		//this is a test
     g.Place(main);
 
 		main.Render();
