@@ -34,3 +34,11 @@ int Object::getDirection(){
 void Object::setDirection(int x){
 	direction = x;
 }
+
+void Object::setXPosition(int x){
+	xPosition = x;
+}
+
+void Object::setYPosition(int y){
+	yPosition = y;
+}

@@ -15,6 +15,7 @@ int main(){
 
 		main.Clear();
     g.Place(main);
+		g.badBehavior();
 		main.Render();
 		SDL_Delay(50);
 	}

@@ -12,6 +12,8 @@ public:
 	int getSpeed();
 	int getDirection();
 	void setDirection(int x);
+	void setXPosition(int x);
+	void setYPosition(int y);
 protected:
 	int xPosition, yPosition, height, width;
 	int degrees = 0;

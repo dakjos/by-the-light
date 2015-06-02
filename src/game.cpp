@@ -1,8 +1,14 @@
 #include "game.hpp"
 
 Game::Game(Window m){
+
   Stan s(m, "img/stan-forward.png", 100, 100, 100, 100);
   S.push_back(s);
+
+  for(int i=0;i<5;i++){
+    Enemy e(m, "img/enemy-left.png", 100);
+    E.push_back(e);
+  }
 }
 
 void Game::Place(Window m){
@@ -13,6 +19,10 @@ void Game::Place(Window m){
   int x = S[0].getX();
   int y = S[0].getY();
   int direction = S[0].getDirection();
+
+  for(int i=0;i<E.size();i++){
+    E[i].Place();
+  }
 
   if(boltshot){
     if(boltcount == 0){
@@ -207,4 +217,51 @@ void Game::action(Window m, SDL_Event& e){
         }
         break;
     }
+}
+
+void Game::badBehavior(){
+  badMove = badMove + 1;
+  if(badMove%10 != 0)
+    return;
+  else {
+    for(int i=0;i<E.size();i++){
+      E[i].setTargetX(S[0].getX());
+      E[i].setTargetY(S[0].getY());
+    }
+
+    for(int i=0;i<E.size();i++){
+      if(E[i].getX()==E[i].getTargetX()){
+    		if(E[i].getY()<E[i].getTargetY())
+    			E[i].setYPosition(E[i].getY() + E[i].getSpeed());
+    		else
+          E[i].setYPosition(E[i].getY() - E[i].getSpeed());
+    	}
+  	  else if(E[i].getY()==E[i].getTargetY()){
+  		  if(E[i].getX()<E[i].getTargetX())
+          E[i].setXPosition(E[i].getX() + E[i].getSpeed());
+  		  else
+          E[i].setXPosition(E[i].getX() - E[i].getSpeed());
+  	  }
+  	  else if(E[i].getX()<E[i].getTargetX()){
+  		  if(E[i].getY()<E[i].getTargetY()){
+          E[i].setXPosition(E[i].getX() + E[i].getSpeed());
+          E[i].setYPosition(E[i].getY() + E[i].getSpeed());
+  		  }
+  		  else{
+          E[i].setXPosition(E[i].getX() + E[i].getSpeed());
+          E[i].setYPosition(E[i].getY() - E[i].getSpeed());
+  	  	}
+  	  }
+  	  else if(E[i].getX()>E[i].getTargetX()){
+  		  if(E[i].getY()<E[i].getTargetY()){
+          E[i].setXPosition(E[i].getX() - E[i].getSpeed());
+          E[i].setYPosition(E[i].getY() + E[i].getSpeed());
+  		  }
+  		  else{
+          E[i].setXPosition(E[i].getX() - E[i].getSpeed());
+          E[i].setYPosition(E[i].getY() - E[i].getSpeed());
+  		  }
+  	  }
+    }
+  }
 }
