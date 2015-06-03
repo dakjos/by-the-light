@@ -23,10 +23,8 @@ void Game::Place(Window m){
   for(int i=0;i<E.size();i++){
     if(slashing && checkFacing(E[i]) && distanceFromStan(E[i].getX(), E[i].getY()) < 100)
       E[i].setHealth(0);
-
     if(distanceFromBolt(E[i].getX(), E[i].getY()) < 20)
-      {      E[i].setHealth(0);}
-
+      E[i].setHealth(0);
     if(E[i].getHealth() == 0)
       E.erase(E.begin() + i);
     else
@@ -279,24 +277,18 @@ double Game::distanceFromStan(int x, int y){
 }
 
 double Game::distanceFromBolt(int x, int y){
-
   for(int i=0; i<B.size(); ++i){
-
     double distance = sqrt(pow(B[i].getX() - x, 2) + pow(B[0].getY() - y, 2));
-    if(distance < 20)
-    {
+    if(distance < 20){
       numbolts -= 1; B.erase(B.begin()+i);
-            initx.erase(initx.begin()+i);
-            inity.erase(inity.begin()+i);
-            initdir.erase(initdir.begin()+i);
-            boltcount.erase(boltcount.begin()+i);
-
+      initx.erase(initx.begin()+i);
+      inity.erase(inity.begin()+i);
+      initdir.erase(initdir.begin()+i);
+      boltcount.erase(boltcount.begin()+i);
     }
     return distance;
   }
-
   return 1000;
-
 }
 
 bool Game::checkFacing(Enemy e){
