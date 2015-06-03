@@ -6,14 +6,16 @@
 
 class Enemy : public Object {
 	public:
-    Enemy(Window m, std::string s, int health);
+    Enemy(Window m, std::string s);
 		int getHealth();
 		int getTargetX();
 		int getTargetY();
 		void setTargetX(int x);
 		void setTargetY(int y);
+		void setHealth(int x);
+		void checkDirection(Enemy e);
 	private:
-		int health;
+		int health = 100;
 		int speed = 10;
 		int targetX, targetY;
 };

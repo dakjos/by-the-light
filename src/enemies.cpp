@@ -1,9 +1,8 @@
 #include "enemies.hpp"
 
-Enemy::Enemy(Window m, std::string s, int health){
+Enemy::Enemy(Window m, std::string s){
 	texture = loadTexture(s, m);
 	renderer = m.getRenderer();
-	health = health;
 	xPosition = rand()%800;
 	yPosition = rand()%1200;
 }
@@ -26,4 +25,8 @@ void Enemy::setTargetX(int x){
 
 void Enemy::setTargetY(int y){
 	targetY = y;
+}
+
+void Enemy::setHealth(int x){
+	health = x;
 }

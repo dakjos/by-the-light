@@ -6,7 +6,7 @@ Game::Game(Window m){
   S.push_back(s);
 
   for(int i=0;i<5;i++){
-    Enemy e(m, "img/enemy-left.png", 100);
+    Enemy e(m, "img/enemy-left.png");
     E.push_back(e);
   }
 }
@@ -21,7 +21,12 @@ void Game::Place(Window m){
   int direction = S[0].getDirection();
 
   for(int i=0;i<E.size();i++){
-    E[i].Place();
+    if(slashing && /*something needs to go here to check if stan is facing enemy*/ distanceFromStan(E[i].getX(), E[i].getY()) < 50)
+      E[i].setHealth(0);
+    if(E[i].getHealth() == 0)
+      E.erase(E.begin() + i);
+    else
+      E[i].Place();
   }
 
   for(int i=0; i<numbolts; ++i){
@@ -178,43 +183,43 @@ void Game::action(Window m, SDL_Event& e){
   int direction = S[0].getDirection();
 
 	switch(e.key.keysym.sym){
-        case SDLK_w:{
-          S.erase(S.begin());
-          Stan s = Stan(m, "img/stan-forward.png", health, light, x, y-speed);
-          S.push_back(s);
-          S[0].setDirection(1);
-        }
-        break;
-        case SDLK_s:{
-          S.erase(S.begin());
-          Stan s = Stan(m, "img/stan-backward.png", health, light, x, y+speed);
-          S.push_back(s);
-          S[0].setDirection(2);
-        }
-        break;
-        case SDLK_a:{
-          S.erase(S.begin());
-          Stan s = Stan(m, "img/stan-left.png", health, light, x-speed, y);
-          S.push_back(s);
-          S[0].setDirection(3);
-        }
-        break;
-        case SDLK_d:{
-          S.erase(S.begin());
-          Stan s = Stan(m, "img/stan-right.png", health, light, x+speed, y);
-          S.push_back(s);
-          S[0].setDirection(4);
-        }
-        break;
-        case SDLK_e:{
-          slashing = 1;
-        }
-        break;
-        case SDLK_q:{
-          boltcount.push_back(0);
-          numbolts += 1;
-        }
-        break;
+    case SDLK_w:{
+      S.erase(S.begin());
+      Stan s = Stan(m, "img/stan-forward.png", health, light, x, y-speed);
+      S.push_back(s);
+      S[0].setDirection(1);
+    }
+    break;
+    case SDLK_s:{
+      S.erase(S.begin());
+      Stan s = Stan(m, "img/stan-backward.png", health, light, x, y+speed);
+      S.push_back(s);
+      S[0].setDirection(2);
+    }
+    break;
+    case SDLK_a:{
+      S.erase(S.begin());
+      Stan s = Stan(m, "img/stan-left.png", health, light, x-speed, y);
+      S.push_back(s);
+      S[0].setDirection(3);
+    }
+    break;
+    case SDLK_d:{
+      S.erase(S.begin());
+      Stan s = Stan(m, "img/stan-right.png", health, light, x+speed, y);
+      S.push_back(s);
+      S[0].setDirection(4);
+    }
+    break;
+    case SDLK_e:{
+      slashing = 1;
+    }
+    break;
+    case SDLK_q:{
+      boltcount.push_back(0);
+      numbolts += 1;
+    }
+    break;
   }
 }
 
@@ -263,6 +268,7 @@ void Game::badBehavior(){
     }
   }
 }
+
 double Game::distanceFromStan(int x, int y){
   int stanX = S[0].getX();
   int stanY = S[0].getY();
