@@ -66,7 +66,9 @@ void Game::Place(Window m){
       }
       break;
     }
-
+    boltcount[i] += 1;
+  }
+  for(int i=0;i<numbolts;i++){
     if(!B[i].checkWindow()){
       numbolts -= 1; B.erase(B.begin()+i);
       initx.erase(initx.begin()+i);
@@ -74,9 +76,7 @@ void Game::Place(Window m){
       initdir.erase(initdir.begin()+i);
       boltcount.erase(boltcount.begin()+i);
     }
-    boltcount[i] += 1;
   }
-
   for(int i=0; i<numbolts; ++i)
     B[i].Place();
 
@@ -227,7 +227,6 @@ void Game::badBehavior(){
       E[i].setTargetX(S[0].getX());
       E[i].setTargetY(S[0].getY());
     }
-
     for(int i=0;i<E.size();i++){
       if(E[i].getX()==E[i].getTargetX()){
     		if(E[i].getY()<E[i].getTargetY())
@@ -263,4 +262,10 @@ void Game::badBehavior(){
   	  }
     }
   }
+}
+double Game::distanceFromStan(int x, int y){
+  int stanX = S[0].getX();
+  int stanY = S[0].getY();
+  double distance = sqrt(pow(stanX - x, 2) + pow(stanY - y, 2));
+  return distance;
 }

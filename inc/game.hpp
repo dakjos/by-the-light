@@ -13,6 +13,7 @@ public:
   void Place(Window m);
   void action(Window m, SDL_Event& e);
   void badBehavior();
+  double distanceFromStan(int x, int y);
 private:
   std::vector<Stan> S;
   std::vector<Bolt> B;
