@@ -21,7 +21,7 @@ void Game::Place(Window m){
   int direction = S[0].getDirection();
 
   for(int i=0;i<E.size();i++){
-    if(slashing && /*something needs to go here to check if stan is facing enemy*/ distanceFromStan(E[i].getX(), E[i].getY()) < 50)
+    if(slashing && checkFacing(E[i]) && distanceFromStan(E[i].getX(), E[i].getY()) < 100)
       E[i].setHealth(0);
     if(E[i].getHealth() == 0)
       E.erase(E.begin() + i);
@@ -270,8 +270,39 @@ void Game::badBehavior(){
 }
 
 double Game::distanceFromStan(int x, int y){
-  int stanX = S[0].getX();
-  int stanY = S[0].getY();
-  double distance = sqrt(pow(stanX - x, 2) + pow(stanY - y, 2));
+  double distance = sqrt(pow(S[0].getX() - x, 2) + pow(S[0].getY() - y, 2));
   return distance;
+}
+
+bool Game::checkFacing(Enemy e){
+  switch(S[0].getDirection()){
+    case 1: {
+      if(abs(S[0].getX() - e.getX()) < 10 && (S[0].getY() - e.getY()) > 0)
+        return true;
+      else
+        return false;
+    }
+    break;
+    case 2: {
+      if(abs(S[0].getX() - e.getX()) < 10 && (S[0].getY() - e.getY()) < 0)
+        return true;
+      else
+        return false;
+    }
+    break;
+    case 3: {
+      if((S[0].getX() - e.getX()) > 0 && abs(S[0].getY() - e.getY()) < 10)
+        return true;
+      else
+        return false;
+    }
+    break;
+    case 4: {
+      if((S[0].getX() - e.getX()) < 0 && abs(S[0].getY() - e.getY()) < 10)
+        return true;
+      else
+        return false;
+    }
+    break;
+  }
 }

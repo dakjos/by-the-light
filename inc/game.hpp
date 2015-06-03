@@ -14,6 +14,7 @@ public:
   void action(Window m, SDL_Event& e);
   void badBehavior();
   double distanceFromStan(int x, int y);
+  bool checkFacing(Enemy e);
 private:
   std::vector<Stan> S;
   std::vector<Bolt> B;
