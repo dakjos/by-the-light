@@ -24,63 +24,61 @@ void Game::Place(Window m){
     E[i].Place();
   }
 
-  if(boltshot){
-    if(boltcount == 0){
-      initdir = direction;
-      initx = x;
-      inity = y;
+  for(int i=0; i<numbolts; ++i){
+    if(boltcount[i] == 0){
+      initdir.push_back(direction);// = direction;
+      initx.push_back(x);// = x;
+      inity.push_back(y);//[i] = y;
+      switch(direction){
+        case 1:{
+          Bolt b = Bolt(m, "img/bolt_of_light_up.png", initdir[i], initx[i], inity[i], boltcount[i]);       B.push_back(b);
+        }
+        break;
+        case 2:{
+          Bolt b = Bolt(m, "img/bolt_of_light_down.png", initdir[i], initx[i], inity[i], boltcount[i]);       B.push_back(b);
+        }
+        break;
+        case 3:{
+          Bolt b = Bolt(m, "img/bolt_of_light_left.png", initdir[i], initx[i], inity[i], boltcount[i]);        B.push_back(b);
+        }
+        break;
+        case 4:{
+          Bolt b = Bolt(m, "img/bolt_of_light_right.png", initdir[i], initx[i], inity[i], boltcount[i]);          B.push_back(b);
+        }
+        break;
+      }
     }
-    switch(initdir){
-      case 1: {
-        if(boltcount > 0)
-          B.erase(B.begin());
-        Bolt b = Bolt(m, "img/bolt_of_light_up.png", initdir, initx, inity, boltcount);
-        B.push_back(b);
-        B[0].Place();
-        B[0].setDirection(1);
-        boltshot = B[0].checkWindow();
+    switch(initdir[i]){
+      case 1:{
+        B[i].setYPosition(inity[i]-(boltcount[i]*B[i].getSpeed()));
       }
       break;
-      case 2: {
-        if(boltcount > 0)
-          B.erase(B.begin());
-        Bolt b = Bolt(m, "img/bolt_of_light_down.png", initdir, initx, inity, boltcount);
-        B.push_back(b);
-        B[0].Place();
-        B[0].setDirection(2);
-        boltshot = B[0].checkWindow();
+      case 2:{
+        B[i].setYPosition(inity[i]+(boltcount[i]*B[i].getSpeed()));
       }
       break;
-      case 3: {
-      if(boltcount > 0)
-          B.erase(B.begin());
-        Bolt b = Bolt(m, "img/bolt_of_light_left.png", initdir, initx, inity,boltcount);
-        B.push_back(b);
-        B[0].Place();
-        B[0].setDirection(3);
-        boltshot = B[0].checkWindow();
+      case 3:{
+        B[i].setXPosition(initx[i]-(boltcount[i]*B[i].getSpeed()));
       }
       break;
-      case 4: {
-        if(boltcount > 0)
-          B.erase(B.begin());
-        Bolt b = Bolt(m, "img/bolt_of_light_right.png", initdir, initx, inity, boltcount);
-        B.push_back(b);
-        B[0].Place();
-        B[0].setDirection(4);
-        boltshot = B[0].checkWindow();
+      case 4:{
+        B[i].setXPosition(initx[i]+(boltcount[i]*B[i].getSpeed()));
       }
       break;
     }
-    boltcount += 1;
+
+    if(!B[i].checkWindow()){
+      numbolts -= 1; B.erase(B.begin()+i);
+      initx.erase(initx.begin()+i);
+      inity.erase(inity.begin()+i);
+      initdir.erase(initdir.begin()+i);
+      boltcount.erase(boltcount.begin()+i);
+    }
+    boltcount[i] += 1;
   }
-  else if(!boltshot){
-    if(boltcount) {
-      boltcount =0;
-      initdir = 0;
-      B.erase(B.begin());
-    }
-  }
+
+  for(int i=0; i<numbolts; ++i)
+    B[i].Place();
 
   if(slashing){
     switch(direction){
@@ -213,10 +211,11 @@ void Game::action(Window m, SDL_Event& e){
         }
         break;
         case SDLK_q:{
-          boltshot = 1;
+          boltcount.push_back(0);
+          numbolts += 1;
         }
         break;
-    }
+  }
 }
 
 void Game::badBehavior(){

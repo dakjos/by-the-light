@@ -19,13 +19,12 @@ private:
   std::vector<Enemy> E;
   bool slashing = 0;
   bool unslashing = 0;
-  bool boltshot = 0;
-  int boltcount = 0;
-  int howManyBolts = 0;
-  int initdir = 0;
-  int initx = 0;
-  int inity = 0;
   int badMove = 0;
+  std::vector<int> boltcount;
+  std::vector<int> initdir;
+  std::vector<int> initx;
+  std::vector<int> inity;
+  int numbolts = 0;
 };
 
 #endif
