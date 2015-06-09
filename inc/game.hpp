@@ -13,7 +13,7 @@ public:
   void Place(Window m);
   void action(Window m, SDL_Event& e);
   void badBehavior();
-  double distanceFromStan(int x, int y);
+  bool checkSlashCollision(Enemy e);
   double distanceFromBolt(int x, int y);
   bool checkBolt(Enemy e);
   bool checkFacing(Enemy e);

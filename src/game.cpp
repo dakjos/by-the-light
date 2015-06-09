@@ -12,16 +12,10 @@ Game::Game(Window m){
 }
 
 void Game::Place(Window m){
-  //this probably needs a function
-  /*int health = S[0].getHealth();
-  int light = S[0].getLight();
-  int speed = S[0].getSpeed();
-  int x = S[0].getX();
-  int y = S[0].getY();
-  int direction = S[0].getDirection();*/
 
+  //Collision Detection
   for(int i=0;i<E.size();i++){
-    if(slashing && checkFacing(E[i]) && distanceFromStan(E[i].getX(), E[i].getY()) < 100)
+    if(slashing && checkSlashCollision(E[i]) && checkFacing(E[i]))  // && distanceFromStan(E[i].getX(), E[i].getY()) < 100)
       E[i].setHealth(0);
     if( checkBolt(E[i]))
       E[i].setHealth(0);
@@ -43,43 +37,35 @@ void Game::Place(Window m){
   else
     S[0].Place();
 
-
 }
 
 void Game::action(Window m, SDL_Event& e){
-  //see? here it is again
-  int health = S[0].getHealth();
-  int light = S[0].getLight();
-  int speed = S[0].getSpeed();
-  int x = S[0].getX();
-  int y = S[0].getY();
-  int direction = S[0].getDirection();
 
 	switch(e.key.keysym.sym){
     case SDLK_w:{
       S.erase(S.begin());
-      Stan s = Stan(m, "img/stan-forward.png", health, light, x, y-speed);
+      Stan s = Stan(m, "img/stan-forward.png", S[0].getHealth(), S[0].getLight(), S[0].getX(), S[0].getY()-S[0].getSpeed());
       S.push_back(s);
       S[0].setDirection(1);
     }
     break;
     case SDLK_s:{
       S.erase(S.begin());
-      Stan s = Stan(m, "img/stan-backward.png", health, light, x, y+speed);
+      Stan s = Stan(m, "img/stan-backward.png", S[0].getHealth(), S[0].getLight(), S[0].getX(), S[0].getY()+S[0].getSpeed());
       S.push_back(s);
       S[0].setDirection(2);
     }
     break;
     case SDLK_a:{
       S.erase(S.begin());
-      Stan s = Stan(m, "img/stan-left.png", health, light, x-speed, y);
+      Stan s = Stan(m, "img/stan-left.png", S[0].getHealth(), S[0].getLight(), S[0].getX()-S[0].getSpeed(), S[0].getY());
       S.push_back(s);
       S[0].setDirection(3);
     }
     break;
     case SDLK_d:{
       S.erase(S.begin());
-      Stan s = Stan(m, "img/stan-right.png", health, light, x+speed, y);
+      Stan s = Stan(m, "img/stan-right.png", S[0].getHealth(), S[0].getLight(), S[0].getX()+S[0].getSpeed(), S[0].getY());
       S.push_back(s);
       S[0].setDirection(4);
     }
@@ -142,9 +128,39 @@ void Game::badBehavior(){
   }
 }
 
-double Game::distanceFromStan(int x, int y){
-  double distance = sqrt(pow(S[0].getX() - x, 2) + pow(S[0].getY() - y, 2));
-  return distance;
+bool Game::checkSlashCollision(Enemy e){
+
+  int eLeft = e.getX();
+  int eRight = e.getX() + e.getWidth();
+  int eTop = e.getY();
+  int eBottom = e.getY() + e.getHeight();
+
+  int stLeft = S[0].getX();
+  int stRight = S[0].getX() + S[0].getWidth();
+  int stTop = S[0].getY();
+  int stBottom = S[0].getY() + S[0].getHeight();
+
+
+  if(   ((eBottom+25) <= stTop))//  && (S[0].getDirection() != 1 )) //   slahing enemy above stanbottomA <= topB )
+  {
+    return false;
+  }
+  if(   ((eTop-25) >= stBottom))//  && (S[0].getDirection() != 2)) //topA >= bottomB ) // Slashin enemy below stan
+  {
+    return false;
+  }
+  if( ((eRight+25) <= stLeft))// && (S[0].getDirection() != 3)) //rightA <= leftB ) // Slashing enemy left
+  {
+    return false;
+  }
+  if( ((eLeft-25) >= stRight))// && (S[0].getDirection() != 4)) //leftA >= rightB )
+  {
+    return false;
+  } //If none of the sides from A are outside B
+  else
+  {
+    return true;
+  }
 }
 
 double Game::distanceFromBolt(int x, int y){
