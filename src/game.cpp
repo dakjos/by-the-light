@@ -13,17 +13,17 @@ Game::Game(Window m){
 
 void Game::Place(Window m){
   //this probably needs a function
-  int health = S[0].getHealth();
+  /*int health = S[0].getHealth();
   int light = S[0].getLight();
   int speed = S[0].getSpeed();
   int x = S[0].getX();
   int y = S[0].getY();
-  int direction = S[0].getDirection();
+  int direction = S[0].getDirection();*/
 
   for(int i=0;i<E.size();i++){
     if(slashing && checkFacing(E[i]) && distanceFromStan(E[i].getX(), E[i].getY()) < 100)
       E[i].setHealth(0);
-    if(distanceFromBolt(E[i].getX(), E[i].getY()) < 20)
+    if( checkBolt(E[i]))
       E[i].setHealth(0);
     if(E[i].getHealth() == 0)
       E.erase(E.begin() + i);
@@ -31,148 +31,19 @@ void Game::Place(Window m){
       E[i].Place();
   }
 
-  for(int i=0; i<numbolts; ++i){
-    if(boltcount[i] == 0){
-      initdir.push_back(direction);// = direction;
-      initx.push_back(x);// = x;
-      inity.push_back(y);//[i] = y;
-      switch(direction){
-        case 1:{
-          Bolt b = Bolt(m, "img/bolt_of_light_up.png", initdir[i], initx[i], inity[i], boltcount[i]);       B.push_back(b);
-        }
-        break;
-        case 2:{
-          Bolt b = Bolt(m, "img/bolt_of_light_down.png", initdir[i], initx[i], inity[i], boltcount[i]);       B.push_back(b);
-        }
-        break;
-        case 3:{
-          Bolt b = Bolt(m, "img/bolt_of_light_left.png", initdir[i], initx[i], inity[i], boltcount[i]);        B.push_back(b);
-        }
-        break;
-        case 4:{
-          Bolt b = Bolt(m, "img/bolt_of_light_right.png", initdir[i], initx[i], inity[i], boltcount[i]);          B.push_back(b);
-        }
-        break;
-      }
-    }
-    switch(initdir[i]){
-      case 1:{
-        B[i].setYPosition(inity[i]-(boltcount[i]*B[i].getSpeed()));
-      }
-      break;
-      case 2:{
-        B[i].setYPosition(inity[i]+(boltcount[i]*B[i].getSpeed()));
-      }
-      break;
-      case 3:{
-        B[i].setXPosition(initx[i]-(boltcount[i]*B[i].getSpeed()));
-      }
-      break;
-      case 4:{
-        B[i].setXPosition(initx[i]+(boltcount[i]*B[i].getSpeed()));
-      }
-      break;
-    }
-    boltcount[i] += 1;
-  }
-  for(int i=0;i<numbolts;i++){
-    if(!B[i].checkWindow()){
-      numbolts -= 1; B.erase(B.begin()+i);
-      initx.erase(initx.begin()+i);
-      inity.erase(inity.begin()+i);
-      initdir.erase(initdir.begin()+i);
-      boltcount.erase(boltcount.begin()+i);
-    }
-  }
+  updateBoltPos(m);
+
   for(int i=0; i<numbolts; ++i)
     B[i].Place();
 
-  if(slashing){
-    switch(direction){
-        case 1: {
-          S.erase(S.begin());
-          Stan s = Stan(m, "img/stan-slash-up.png", health, light, x, y);
-          S.push_back(s);
-          S[0].Place();
-          S[0].setDirection(1);
-          slashing = 0;
-          unslashing = 1;
-        }
-        break;
-        case 2: {
-          S.erase(S.begin());
-          Stan s = Stan(m, "img/stan-slash-down.png", health, light, x, y);
-          S.push_back(s);
-          S[0].Place();
-          S[0].setDirection(2);
-          slashing = 0;
-          unslashing = 1;
-        }
-        break;
-        case 3: {
-          S.erase(S.begin());
-          Stan s = Stan(m, "img/stan-slash-left.png", health, light, x, y);
-          S.push_back(s);
-          S[0].Place();
-          S[0].setDirection(3);
-          slashing = 0;
-          unslashing = 1;
-        }
-        break;
-        case 4: {
-          S.erase(S.begin());
-          Stan s = Stan(m, "img/stan-slash-right.png", health, light, x, y);
-          S.push_back(s);
-          S[0].Place();
-          S[0].setDirection(4);
-          slashing = 0;
-          unslashing = 1;
-        }
-        break;
-      }
-    }
-  else if(unslashing){
-    switch(direction){
-      case 1: {
-        S.erase(S.begin());
-        Stan s = Stan(m, "img/stan-forward.png", health, light, x, y);
-        S.push_back(s);
-        S[0].Place();
-        S[0].setDirection(1);
-        unslashing = 0;
-      }
-      break;
-      case 2: {
-        S.erase(S.begin());
-        Stan s = Stan(m, "img/stan-backward.png", health, light, x, y);
-        S.push_back(s);
-        S[0].Place();
-        S[0].setDirection(2);
-        unslashing = 0;
-      }
-      break;
-      case 3: {
-        S.erase(S.begin());
-        Stan s = Stan(m, "img/stan-left.png", health, light, x, y);
-        S.push_back(s);
-        S[0].Place();
-        S[0].setDirection(3);
-        unslashing = 0;
-      }
-      break;
-      case 4: {
-        S.erase(S.begin());
-        Stan s = Stan(m, "img/stan-right.png", health, light, x, y);
-        S.push_back(s);
-        S[0].Place();
-        S[0].setDirection(4);
-        unslashing = 0;
-      }
-      break;
-    }
-  }
+  if(slashing)
+    stanSlash(m,S);
+  else if(unslashing)
+    stanUnslash(m,S);
   else
     S[0].Place();
+
+
 }
 
 void Game::action(Window m, SDL_Event& e){
@@ -291,6 +162,55 @@ double Game::distanceFromBolt(int x, int y){
   return 1000;
 }
 
+bool Game::checkBolt(Enemy e){
+  int eLeft = e.getX();
+  int eRight = e.getX() + e.getWidth();
+  int eTop = e.getY();
+  int eBottom = e.getY() + e.getHeight();
+
+  int bLeft;
+  int bRight;
+  int bTop;
+  int bBottom;
+
+//mill street =
+
+
+  for(int i=0; i<B.size(); ++i){
+
+    bLeft = B[i].getX();
+    bRight = B[i].getX() + B[i].getWidth();
+    bTop = B[i].getY();
+    bBottom = B[i].getY()  + B[i].getHeight();
+
+    if( eBottom <= bTop) //bottomA <= topB )
+    {
+      continue;
+    }
+    if( eTop >= bBottom) //topA >= bottomB )
+    {
+      continue;
+    }
+    if( eRight <= bLeft) //rightA <= leftB )
+    {
+      continue;
+    }
+    if( eLeft >= bRight) //leftA >= rightB )
+    {
+      continue;
+    } //If none of the sides from A are outside B
+    else{
+      numbolts -= 1; B.erase(B.begin()+i);
+      initx.erase(initx.begin()+i);
+      inity.erase(inity.begin()+i);
+      initdir.erase(initdir.begin()+i);
+      boltcount.erase(boltcount.begin()+i);
+      return true;
+    }
+  }
+  return false;
+}
+
 bool Game::checkFacing(Enemy e){
   switch(S[0].getDirection()){
     case 1: {
@@ -321,5 +241,151 @@ bool Game::checkFacing(Enemy e){
         return false;
     }
     break;
+  }
+}
+
+
+void Game::stanSlash(Window m,std::vector<Stan> S){
+
+  switch(S[0].getDirection()){
+      case 1: {
+        S.erase(S.begin());
+        Stan s = Stan(m, "img/stan-slash-up.png", S[0].getHealth(), S[0].getLight(), S[0].getX(), S[0].getY());
+        S.push_back(s);
+        S[0].Place();
+        S[0].setDirection(1);
+        slashing = 0;
+        unslashing = 1;
+      }
+      break;
+      case 2: {
+        S.erase(S.begin());
+        Stan s = Stan(m, "img/stan-slash-down.png", S[0].getHealth(), S[0].getLight(), S[0].getX(), S[0].getY());
+        S.push_back(s);
+        S[0].Place();
+        S[0].setDirection(2);
+        slashing = 0;
+        unslashing = 1;
+      }
+      break;
+      case 3: {
+        S.erase(S.begin());
+        Stan s = Stan(m, "img/stan-slash-left.png", S[0].getHealth(), S[0].getLight(), S[0].getX(), S[0].getY());
+        S.push_back(s);
+        S[0].Place();
+        S[0].setDirection(3);
+        slashing = 0;
+        unslashing = 1;
+      }
+      break;
+      case 4: {
+        S.erase(S.begin());
+        Stan s = Stan(m, "img/stan-slash-right.png", S[0].getHealth(), S[0].getLight(), S[0].getX(), S[0].getY());
+        S.push_back(s);
+        S[0].Place();
+        S[0].setDirection(4);
+        slashing = 0;
+        unslashing = 1;
+      }
+      break;
+    }
+}
+
+
+void Game::stanUnslash(Window m, std::vector<Stan> S){
+
+  switch(S[0].getDirection()){
+    case 1: {
+      S.erase(S.begin());
+      Stan s = Stan(m, "img/stan-forward.png", S[0].getHealth(), S[0].getLight(), S[0].getX(), S[0].getY());
+      S.push_back(s);
+      S[0].Place();
+      S[0].setDirection(1);
+      unslashing = 0;
+    }
+    break;
+    case 2: {
+      S.erase(S.begin());
+      Stan s = Stan(m, "img/stan-backward.png", S[0].getHealth(), S[0].getLight(), S[0].getX(), S[0].getY());
+      S.push_back(s);
+      S[0].Place();
+      S[0].setDirection(2);
+      unslashing = 0;
+    }
+    break;
+    case 3: {
+      S.erase(S.begin());
+      Stan s = Stan(m, "img/stan-left.png", S[0].getHealth(), S[0].getLight(), S[0].getX(), S[0].getY());
+      S.push_back(s);
+      S[0].Place();
+      S[0].setDirection(3);
+      unslashing = 0;
+    }
+    break;
+    case 4: {
+      S.erase(S.begin());
+      Stan s = Stan(m, "img/stan-right.png", S[0].getHealth(), S[0].getLight(), S[0].getX(), S[0].getY());
+      S.push_back(s);
+      S[0].Place();
+      S[0].setDirection(4);
+      unslashing = 0;
+    }
+    break;
+  }
+}
+
+void Game::updateBoltPos(Window m){
+  for(int i=0; i<numbolts; ++i){
+    if(boltcount[i] == 0){
+      initdir.push_back(S[0].getDirection());// = direction;
+      initx.push_back(S[0].getX());// = x;
+      inity.push_back(S[0].getY());//[i] = y;
+      switch(initdir[i]){
+        case 1:{
+          Bolt b = Bolt(m, "img/bolt_of_light_up.png", initdir[i], initx[i], inity[i], boltcount[i]);       B.push_back(b);
+        }
+        break;
+        case 2:{
+          Bolt b = Bolt(m, "img/bolt_of_light_down.png", initdir[i], initx[i], inity[i], boltcount[i]);       B.push_back(b);
+        }
+        break;
+        case 3:{
+          Bolt b = Bolt(m, "img/bolt_of_light_left.png", initdir[i], initx[i], inity[i], boltcount[i]);        B.push_back(b);
+        }
+        break;
+        case 4:{
+          Bolt b = Bolt(m, "img/bolt_of_light_right.png", initdir[i], initx[i], inity[i], boltcount[i]);          B.push_back(b);
+        }
+        break;
+      }
+    }
+    switch(initdir[i]){
+      case 1:{
+        B[i].setYPosition(inity[i]-(boltcount[i]*B[i].getSpeed()));
+      }
+      break;
+      case 2:{
+        B[i].setYPosition(inity[i]+(boltcount[i]*B[i].getSpeed()));
+      }
+      break;
+      case 3:{
+        B[i].setXPosition(initx[i]-(boltcount[i]*B[i].getSpeed()));
+      }
+      break;
+      case 4:{
+        B[i].setXPosition(initx[i]+(boltcount[i]*B[i].getSpeed()));
+      }
+      break;
+    }
+    boltcount[i] += 1;
+  }
+  for(int i=0;i<numbolts;i++){
+    if(!B[i].checkWindow()){
+      numbolts -= 1; B.erase(B.begin()+i);
+      initx.erase(initx.begin()+i);
+      inity.erase(inity.begin()+i);
+      initdir.erase(initdir.begin()+i);
+      boltcount.erase(boltcount.begin()+i);
+    }
   }
 }

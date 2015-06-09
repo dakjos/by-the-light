@@ -23,6 +23,14 @@ int Object::getY(){
 	return yPosition;
 }
 
+int Object::getWidth(){
+	return width;
+}
+
+int Object::getHeight(){
+	return height;
+}
+
 int Object::getSpeed(){
 	return speed;
 }

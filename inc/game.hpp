@@ -15,8 +15,12 @@ public:
   void badBehavior();
   double distanceFromStan(int x, int y);
   double distanceFromBolt(int x, int y);
-
+  bool checkBolt(Enemy e);
   bool checkFacing(Enemy e);
+  void stanSlash(Window m, std::vector<Stan> S);
+  void stanUnslash(Window m, std::vector<Stan> S);
+  void updateBoltPos(Window m);
+
 private:
   std::vector<Stan> S;
   std::vector<Bolt> B;
