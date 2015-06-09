@@ -10,7 +10,7 @@
 class Game {
 public:
   Game(Window m);
-  void Place(Window m);
+  void Place(Window m, SDL_Renderer* renderer);
   void action(Window m, SDL_Event& e);
   void badBehavior();
   bool checkSlashCollision(Enemy e);
@@ -20,6 +20,12 @@ public:
   void stanSlash(Window m, std::vector<Stan> S);
   void stanUnslash(Window m, std::vector<Stan> S);
   void updateBoltPos(Window m);
+  bool checkLife();
+  bool checkEnemyStanCollision(Enemy e);  // enemy attacking stan
+  void updateHealthBar(SDL_Renderer* renderer);
+
+
+
 
 private:
   std::vector<Stan> S;

@@ -9,6 +9,14 @@ Stan::Stan(Window m, std::string s, int health, int light, int x, int y){
 	yPosition = y;
 }
 
+void Stan::takeDamage(int dam){
+	health -= dam;
+}
+
+void Stan::loseLight(int amount){
+	light -= amount;
+}
+
 int Stan::getHealth(){
 	return health;
 }

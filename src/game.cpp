@@ -11,7 +11,7 @@ Game::Game(Window m){
   }
 }
 
-void Game::Place(Window m){
+void Game::Place(Window m, SDL_Renderer* renderer){
 
   //Collision Detection
   for(int i=0;i<E.size();i++){
@@ -21,11 +21,14 @@ void Game::Place(Window m){
       E[i].setHealth(0);
     if(E[i].getHealth() == 0)
       E.erase(E.begin() + i);
-    else
-      E[i].Place();
+    if(checkEnemyStanCollision(E[i]))  // enemy attacking stan
+      S[0].takeDamage(2);
+    E[i].Place();
   }
 
   updateBoltPos(m);
+
+  updateHealthBar(renderer);
 
   for(int i=0; i<numbolts; ++i)
     B[i].Place();
@@ -39,13 +42,48 @@ void Game::Place(Window m){
 
 }
 
+bool Game::checkLife(){
+  if(S[0].getHealth() > 0)
+    return true;
+  else
+    return false;
+}
+
+void Game::updateHealthBar(SDL_Renderer* renderer){
+  SDL_Rect healthOutlineRect = { 20, 20, 200, 20};
+  SDL_SetRenderDrawColor( renderer, 0xFF, 0xFF, 0xFF0, 0xFF );
+  SDL_RenderDrawRect( renderer, &healthOutlineRect );
+  SDL_Rect healthFillRect = { 21, 21, S[0].getHealth()*2, 18 };
+  SDL_SetRenderDrawColor( renderer, 0x00, 0xFF, 0x00, 0xFF );
+  SDL_RenderFillRect( renderer, &healthFillRect );
+
+
+  SDL_Rect outlineRect = { 240, 20, 200, 20};
+  SDL_SetRenderDrawColor( renderer, 0xFF, 0xFF, 0xFF0, 0xFF );
+  SDL_RenderDrawRect( renderer, &outlineRect );
+  SDL_Rect fillRect = { 241, 21, S[0].getLight()*2, 18 };
+  SDL_SetRenderDrawColor( renderer, 0xD1, 0xE8, 0x5B, 0xFF );
+  SDL_RenderFillRect( renderer, &fillRect );
+  SDL_SetRenderDrawColor( renderer, 0x00, 0x00, 0x00, 0xFF );
+
+
+}
+
+
 void Game::action(Window m, SDL_Event& e){
+  int health = S[0].getHealth();
+  int light = S[0].getLight();
+  int speed = S[0].getSpeed();
+  int x = S[0].getX();
+  int y = S[0].getY();
+  int direction = S[0].getDirection();
 
 	switch(e.key.keysym.sym){
     case SDLK_w:{
-      S.erase(S.begin());
-      Stan s = Stan(m, "img/stan-forward.png", S[0].getHealth(), S[0].getLight(), S[0].getX(), S[0].getY()-S[0].getSpeed());
-      S.push_back(s);
+      //S.erase(S.begin());
+      //Stan s = Stan(m, "img/stan-forward.png", health, S[0].getLight(), S[0].getX(), S[0].getY()-S[0].getSpeed());
+      //S.push_back(s);
+      S[0].setYPosition(S[0].getY()-S[0].getSpeed());
       S[0].setDirection(1);
     }
     break;
@@ -53,20 +91,23 @@ void Game::action(Window m, SDL_Event& e){
       S.erase(S.begin());
       Stan s = Stan(m, "img/stan-backward.png", S[0].getHealth(), S[0].getLight(), S[0].getX(), S[0].getY()+S[0].getSpeed());
       S.push_back(s);
+      S[0].setYPosition(S[0].getY()+S[0].getSpeed());
       S[0].setDirection(2);
     }
     break;
     case SDLK_a:{
-      S.erase(S.begin());
-      Stan s = Stan(m, "img/stan-left.png", S[0].getHealth(), S[0].getLight(), S[0].getX()-S[0].getSpeed(), S[0].getY());
-      S.push_back(s);
+      //S.erase(S.begin());
+      //Stan s = Stan(m, "img/stan-left.png", health, S[0].getLight(), S[0].getX()-S[0].getSpeed(), S[0].getY());
+      //S.push_back(s);
+      S[0].setXPosition(S[0].getX()-S[0].getSpeed());
       S[0].setDirection(3);
     }
     break;
     case SDLK_d:{
-      S.erase(S.begin());
-      Stan s = Stan(m, "img/stan-right.png", S[0].getHealth(), S[0].getLight(), S[0].getX()+S[0].getSpeed(), S[0].getY());
-      S.push_back(s);
+      //S.erase(S.begin());
+      //Stan s = Stan(m, "img/stan-right.png", health, S[0].getLight(), S[0].getX()+S[0].getSpeed(), S[0].getY());
+      //S.push_back(s);
+      S[0].setXPosition(S[0].getX()+S[0].getSpeed());
       S[0].setDirection(4);
     }
     break;
@@ -75,8 +116,11 @@ void Game::action(Window m, SDL_Event& e){
     }
     break;
     case SDLK_q:{
-      boltcount.push_back(0);
-      numbolts += 1;
+      if(S[0].getLight() > 0){
+        boltcount.push_back(0);
+        numbolts += 1;
+        S[0].loseLight(10);
+      }
     }
     break;
   }
@@ -163,6 +207,41 @@ bool Game::checkSlashCollision(Enemy e){
   }
 }
 
+bool Game::checkEnemyStanCollision(Enemy e){
+
+  int eLeft = e.getX();
+  int eRight = e.getX() + e.getWidth();
+  int eTop = e.getY();
+  int eBottom = e.getY() + e.getHeight();
+
+  int stLeft = S[0].getX();
+  int stRight = S[0].getX() + S[0].getWidth();
+  int stTop = S[0].getY();
+  int stBottom = S[0].getY() + S[0].getHeight();
+
+
+  if(   ((eBottom-25) <= stTop))//  && (S[0].getDirection() != 1 )) //   slahing enemy above stanbottomA <= topB )
+  {
+    return false;
+  }
+  if(   ((eTop+25) >= stBottom))//  && (S[0].getDirection() != 2)) //topA >= bottomB ) // Slashin enemy below stan
+  {
+    return false;
+  }
+  if( ((eRight-25) <= stLeft))// && (S[0].getDirection() != 3)) //rightA <= leftB ) // Slashing enemy left
+  {
+    return false;
+  }
+  if( ((eLeft+25) >= stRight))// && (S[0].getDirection() != 4)) //leftA >= rightB )
+  {
+    return false;
+  } //If none of the sides from A are outside B
+  else
+  {
+    return true;
+  }
+}
+
 double Game::distanceFromBolt(int x, int y){
   for(int i=0; i<B.size(); ++i){
     double distance = sqrt(pow(B[i].getX() - x, 2) + pow(B[0].getY() - y, 2));
@@ -188,9 +267,6 @@ bool Game::checkBolt(Enemy e){
   int bRight;
   int bTop;
   int bBottom;
-
-//mill street =
-
 
   for(int i=0; i<B.size(); ++i){
 
@@ -310,10 +386,17 @@ void Game::stanSlash(Window m,std::vector<Stan> S){
 
 void Game::stanUnslash(Window m, std::vector<Stan> S){
 
+  int health = S[0].getHealth();
+  int light = S[0].getLight();
+  int speed = S[0].getSpeed();
+  int x = S[0].getX();
+  int y = S[0].getY();
+  int direction = S[0].getDirection();
+
   switch(S[0].getDirection()){
     case 1: {
       S.erase(S.begin());
-      Stan s = Stan(m, "img/stan-forward.png", S[0].getHealth(), S[0].getLight(), S[0].getX(), S[0].getY());
+      Stan s = Stan(m, "img/stan-forward.png", health, S[0].getLight(), S[0].getX(), S[0].getY());
       S.push_back(s);
       S[0].Place();
       S[0].setDirection(1);
@@ -322,7 +405,7 @@ void Game::stanUnslash(Window m, std::vector<Stan> S){
     break;
     case 2: {
       S.erase(S.begin());
-      Stan s = Stan(m, "img/stan-backward.png", S[0].getHealth(), S[0].getLight(), S[0].getX(), S[0].getY());
+      Stan s = Stan(m, "img/stan-backward.png", health, S[0].getLight(), S[0].getX(), S[0].getY());
       S.push_back(s);
       S[0].Place();
       S[0].setDirection(2);
@@ -331,7 +414,7 @@ void Game::stanUnslash(Window m, std::vector<Stan> S){
     break;
     case 3: {
       S.erase(S.begin());
-      Stan s = Stan(m, "img/stan-left.png", S[0].getHealth(), S[0].getLight(), S[0].getX(), S[0].getY());
+      Stan s = Stan(m, "img/stan-left.png", health, S[0].getLight(), S[0].getX(), S[0].getY());
       S.push_back(s);
       S[0].Place();
       S[0].setDirection(3);
@@ -340,7 +423,7 @@ void Game::stanUnslash(Window m, std::vector<Stan> S){
     break;
     case 4: {
       S.erase(S.begin());
-      Stan s = Stan(m, "img/stan-right.png", S[0].getHealth(), S[0].getLight(), S[0].getX(), S[0].getY());
+      Stan s = Stan(m, "img/stan-right.png", health, S[0].getLight(), S[0].getX(), S[0].getY());
       S.push_back(s);
       S[0].Place();
       S[0].setDirection(4);
